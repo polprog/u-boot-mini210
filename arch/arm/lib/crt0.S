@@ -89,8 +89,9 @@ ENTRY(_main)
 	
 /* modied by Sourcelink */
 #ifdef CONFIG_SPL_BUILD
-	bl	copy_bl2_to_ram			/* 拷贝BL2到DDR */
-	ldr	pc, =CONFIG_SYS_SDRAM_BASE	/* 跳转到DDR的起始地址执行BL2 */
+	bl	copy_bl2_to_ram /* 拷贝BL2到DDR */ /* Copy BL2 to DDR */
+loop:	b loop    /* mod polprog */
+	ldr	pc, =CONFIG_SYS_SDRAM_BASE	/* 跳转到DDR的起始地址执行BL2 */ /* Jump to the starting address of DDR to execute BL2 */
 #else
 	bl	board_init_f
 #endif

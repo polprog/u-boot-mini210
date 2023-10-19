@@ -832,7 +832,8 @@ endif
 #add by Sourcelink
 combine: u-boot.bin spl/u-boot-spl.bin FORCE
 	cp $(objtree)/spl/$(BOARD)-spl.bin $(objtree)/tmp.bin
-	truncate $(objtree)/tmp.bin -c -s 16K
+# changed by polprog - truncate 16k-1sector (image is written to sector 1 of card)
+	truncate $(objtree)/tmp.bin -c -s 15872   
 	cat $(objtree)/u-boot.bin >> $(objtree)/tmp.bin
 	mv $(objtree)/tmp.bin $(objtree)/u-boot-all.bin
 

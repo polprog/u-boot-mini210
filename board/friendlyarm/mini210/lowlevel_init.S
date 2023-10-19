@@ -48,15 +48,15 @@
 #define ELFIN_GPIO_BASE			0xE0200000
 #define GPA0CON_OFFSET 			0x000 
 #define GPA1CON_OFFSET 			0x020
+
 	
+// For 24MHz, manuf default config, see smdkv210.c for clock setup
 #define UART_UBRDIV_VAL                 34
 #define UART_UDIVSLOT_VAL               0xDDDD	
 
 // end modif by polprog
 /* modif by Sourcelink */
 
-
-	
 .globl lowlevel_init
 lowlevel_init:
 	mov	r9, lr
@@ -64,10 +64,11 @@ lowlevel_init:
 #ifdef CONFIG_SPL_BUILD
 	bl	clock_init		/* 时钟初始化 */
 	bl	ddr_init		/* DDR初始化 */
+	bl 	uart_asm_init           /* uart init */
 #endif
-	ldr	r0, =0xE0200000
-	ldr	r1, =0X22222222
-	str	r1, [r0]
+	ldr	r0, =0xE0200000         /* GPA0CON */
+	ldr	r1, =0X22222222         
+	str	r1, [r0]                /* Write 0x2222_2222 to GPA0CON: enable all uart0 and uart1 pins */
 	mov	pc, r9		/* 返回 */
 
 /*

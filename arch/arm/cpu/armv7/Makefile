@@ -5,7 +5,6 @@
 # SPDX-License-Identifier:	GPL-2.0+
 #
 
-extra-y	:= start.o
 
 obj-y	+= cache_v7.o cache_v7_asm.o
 
@@ -47,3 +46,10 @@ obj-$(CONFIG_RMOBILE) += rmobile/
 obj-$(if $(filter stv0991,$(SOC)),y) += stv0991/
 obj-$(CONFIG_ARCH_SUNXI) += sunxi/
 obj-$(CONFIG_VF610) += vf610/
+
+
+# start.S needs to be rebuilt every time, it is built once as SPL (-DCONFIG_BUILD_SPL)
+# and once as BL2
+extra-y	:= start.o
+$(obj)/start.o: .FORCE
+.FORCE:

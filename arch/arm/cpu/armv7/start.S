@@ -39,6 +39,7 @@ reset:
 	/* Allow the board to save important registers */
 	b	save_boot_params
 save_boot_params_ret:
+#ifdef CONFIG_SPL_BUILD	
 #ifdef CONFIG_ARMV7_LPAE
 /*
  * check for Hypervisor support
@@ -82,9 +83,11 @@ switch_to_hypervisor_ret:
 	bl	cpu_init_cp15
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT_ONLY
 	bl	cpu_init_crit
-#endif
-#endif
-
+#endif //!defined(CONFIG_SKIP_LOWLEVEL_INIT)
+#endif //!defined(CONFIG_SKIP_LOWLEVEL_INIT_ONLY)
+#endif //defined(CONFIG_SPL_BUILD)
+loop:
+@	b       loop
 	bl	_main
 
 /*------------------------------------------------------------------------------*/
