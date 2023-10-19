@@ -1,0 +1,15 @@
+if TARGET_MINI210
+
+config SYS_BOARD
+	default "mini210"
+
+config SYS_VENDOR
+	default "friendlyarm"
+
+config SYS_SOC
+	default "s5pv210"
+
+config SYS_CONFIG_NAME
+	default "mini210"
+
+endif
